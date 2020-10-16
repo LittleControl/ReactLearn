@@ -1,4 +1,5 @@
 import React, { Component, Fragment } from 'react'
+import TodoItem from './TodoItem'
 import './todolist.css'
 
 class TodoList extends Component {
@@ -9,62 +10,60 @@ class TodoList extends Component {
             inputValue: '',
             list: []
         }
+        this.handleDelItem = this.handleDelItem.bind(this)
+        this.handleInputChange = this.handleInputChange.bind(this)
+        this.handleBtnClick = this.handleBtnClick.bind(this)
     }
 
     render() {
-        //JSX语法要求必须存在一个根节点
         return (
             <Fragment>
                 <div>TodoList </div>
-                {/* 
-                    JSX的注释, Just like this
-                */}
-                {/* Nothing */}
-                {//单行注释是真的难用
-                }
                 <label htmlFor="redInput">Please Input Sth</label>
                 <input
                     id="redInput"
                     className='red'
                     value={this.state.inputValue}
-                    onChange={this.handleInputChange.bind(this)}
+                    onChange={this.handleInputChange}
                 />
-                <button onClick={this.handleBtnClick.bind(this)}>Add</button>
-                <ul>
-                    {
-                        this.state.list.map((item, index) => {
-                            return (
-                                <li
-                                    key={index}
-                                    onClick={this.handleDelItem.bind(this, index)}
-                                    dangerouslySetInnerHTML={{ __html: item }}
-                                >
-                                </li>)
-                        })
-                    }
-                </ul>
+                <button onClick={this.handleBtnClick}>Add</button>
+                <ul>{this.getItems()}</ul>
             </Fragment>
         )
     }
 
     handleInputChange(e) {
-        this.setState({
-            inputValue: e.target.value
-        })
+        const value = e.target.value
+        this.setState(() => ({
+            inputValue: value
+        }))
     }
 
     handleBtnClick() {
-        this.setState({
-            list: [...this.state.list, this.state.inputValue],
+        this.setState((state) => ({
+            list: [...state.list, state.inputValue],
             inputValue: ''
-        })
+        }))
     }
 
     handleDelItem(index) {
-        const list = [...this.state.list]
-        list.splice(index, 1)
-        this.setState({
-            list: list
+        this.setState((state) => {
+            const list = [...state.list]
+            list.splice(index, 1)
+            return { list }
+        })
+    }
+
+    getItems() {
+        return this.state.list.map((item, index) => {
+            return (
+                <TodoItem
+                    key={index}
+                    item={item}
+                    index={index}
+                    handleDelItem={this.handleDelItem}
+                />
+            )
         })
     }
 

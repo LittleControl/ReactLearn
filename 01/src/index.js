@@ -4,7 +4,7 @@ import TodoList from './TodoList';
 
 ReactDOM.render(
   <React.StrictMode>
-    <TodoList />,
+    <TodoList />
   </React.StrictMode>,
   document.getElementById('root')
 );
