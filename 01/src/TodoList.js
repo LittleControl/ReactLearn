@@ -1,4 +1,5 @@
 import React, { Component, Fragment } from 'react'
+import Axios from 'axios'
 import TodoItem from './TodoItem'
 import './todolist.css'
 
@@ -31,6 +32,12 @@ class TodoList extends Component {
                 <ul ref={(ul) => { this.ul = ul }}>{this.getItems()}</ul>
             </Fragment>
         )
+    }
+
+    componentDidMount() {
+        Axios.get('/api/user?ID=12345')
+            .then(() => { console.log('success') })
+            .catch(() => { console.log('error') })
     }
 
     handleInputChange(e) {
