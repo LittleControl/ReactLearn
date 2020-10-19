@@ -25,15 +25,18 @@ class TodoList extends Component {
                     className='red'
                     value={this.state.inputValue}
                     onChange={this.handleInputChange}
+                    ref={(input) => { this.input = input }}
                 />
                 <button onClick={this.handleBtnClick}>Add</button>
-                <ul>{this.getItems()}</ul>
+                <ul ref={(ul) => { this.ul = ul }}>{this.getItems()}</ul>
             </Fragment>
         )
     }
 
     handleInputChange(e) {
-        const value = e.target.value
+        // //e.target就是一个DOM节点
+        // const value = e.target.value
+        const value = this.input.value
         this.setState(() => ({
             inputValue: value
         }))
@@ -43,7 +46,9 @@ class TodoList extends Component {
         this.setState((state) => ({
             list: [...state.list, state.inputValue],
             inputValue: ''
-        }))
+        }), () => {
+            console.log(this.ul.querySelectorAll('div').length)
+        })
     }
 
     handleDelItem(index) {

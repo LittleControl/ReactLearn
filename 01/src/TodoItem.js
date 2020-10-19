@@ -31,7 +31,7 @@ class TodoItem extends Component {
 }
 
 TodoItem.propTypes = {
-    content: PropTypes.arrayOf(PropTypes.number, PropTypes.string),
+    content: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
     handleDelItem: PropTypes.func,
     index: PropTypes.number,
     test: PropTypes.string.isRequired
